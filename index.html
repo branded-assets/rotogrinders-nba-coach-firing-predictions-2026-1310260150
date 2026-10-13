@@ -2,7 +2,7 @@
 <html lang="en-US"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="index,follow"><meta name="description" content="Interactive results from an October 2026 survey of 4,398 U.S. NBA fans on which head coach they expect to be fired first. Explore 30 coaches, demographics, fanbases, regions and states."><title>NBA Fan Survey: First Head Coach Fired Picks | RotoGrinders</title>
 <style>
 /* Self-contained component CSS. All author styles live under one unique wrapper. */
-#rg-research-root{--rg-blue:#2879FE;--rg-deep:#155FCF;--rg-navy:#101820;--rg-paper:#f5f8fc;--rg-soft:#eef5ff;--rg-line:#dce5ef;--rg-muted:#52677c;color:#101820;background:#fff;font:17px/1.58 Arial,Helvetica,sans-serif;width:100%;min-width:0;isolation:isolate}
+#rg-research-root{--rg-host-sticky-offset:0px;--rg-blue:#2879FE;--rg-deep:#155FCF;--rg-navy:#101820;--rg-paper:#f5f8fc;--rg-soft:#eef5ff;--rg-line:#dce5ef;--rg-muted:#52677c;color:#101820;background:#fff;font:17px/1.58 Arial,Helvetica,sans-serif;width:100%;min-width:0;isolation:isolate}
 #rg-research-root,#rg-research-root *,#rg-research-root *::before,#rg-research-root *::after{box-sizing:border-box}
 #rg-research-root button,#rg-research-root input{font:inherit}
 #rg-research-root button{cursor:pointer}
@@ -180,7 +180,7 @@
 <div class="rg-stat"><b data-kpi="50" data-fmt="integer">50</b><span>U.S. states represented</span></div>
 <div class="rg-stat"><b class="rg-stat-date" title="October 2–6, 2026">Oct 2–6</b><span>2026 survey fieldwork</span></div>
 </div></div></div>
-<span id="rg-menu-anchor" style="display:block;height:0" aria-hidden="true"></span><nav id="rg-menu" class="rg-nav" aria-label="Research sections"><div class="rg-navtrack"><button class="rg-navbtn" data-jump="rg-findings" type="button">Key findings</button><button class="rg-navbtn" data-jump="rg-top10" type="button">Top &amp; Bottom 10</button><button class="rg-navbtn" data-jump="rg-fanbases" type="button">Fanbase comparison</button><button class="rg-navbtn" data-jump="rg-explorer" type="button">All results &amp; breakdowns</button><button class="rg-navbtn" data-jump="rg-method" type="button">Methodology</button></div></nav>
+<span id="rg-menu-anchor" style="display:block;height:0;scroll-margin-top:8px" aria-hidden="true"></span><nav id="rg-menu" class="rg-nav" aria-label="Research sections"><div class="rg-navtrack"><button class="rg-navbtn" data-jump="rg-findings" type="button">Key findings</button><button class="rg-navbtn" data-jump="rg-top10" type="button">Top &amp; Bottom 10</button><button class="rg-navbtn" data-jump="rg-fanbases" type="button">Fanbase comparison</button><button class="rg-navbtn" data-jump="rg-explorer" type="button">All results &amp; breakdowns</button><button class="rg-navbtn" data-jump="rg-method" type="button">Methodology</button></div></nav>
 <section class="rg-section rg-alt" id="rg-findings"><div class="rg-wrap"><h2>Key findings</h2><p class="rg-sub">Six quick takeaways from the coaches fans were most and least likely to pick first.</p><div class="rg-findings">
 <article class="rg-finding"><div class="rg-finding-top"><span class="rg-finding-index">01</span><div><div class="rg-finding-tag">Overall leader</div><h3>Brian Keefe and the Wizards set the pace</h3></div><strong class="rg-findnum" data-kpi="7.867212369259" data-fmt="percent">7.87%</strong></div><p>Brian Keefe of the Washington Wizards drew the highest overall share at 7.87%, finishing 1.39 percentage points ahead of JJ Redick.</p></article>
 <article class="rg-finding"><div class="rg-finding-top"><span class="rg-finding-index">02</span><div><div class="rg-finding-tag">Second and third place</div><h3>JJ Redick held second, with Nick Nurse third</h3></div><strong class="rg-findnum" data-kpi="6.480218281037" data-fmt="percent">6.48%</strong></div><p>JJ Redick ranked second overall at 6.48%, while Nick Nurse followed in third at 4.89%. That kept the runner-up gap over third place at 1.59 percentage points.</p></article>
@@ -285,12 +285,23 @@ function showTip(b){tipBtn=b;tip.textContent=b.dataset.tip;tip.classList.add('rg
 function hideTip(){tipBtn=null;tipPinned=false;tip.classList.remove('rg-show')}
 root.addEventListener('pointerover',e=>{const b=e.target.closest('.rg-info');if(b&&root.contains(b))showTip(b)});root.addEventListener('pointerout',e=>{const b=e.target.closest('.rg-info');if(b&&(!e.relatedTarget||!b.contains(e.relatedTarget))&&tipBtn===b&&!tipPinned)hideTip()});root.addEventListener('focusin',e=>{const b=e.target.closest('.rg-info');if(b)showTip(b)});root.addEventListener('focusout',e=>{if(e.target===tipBtn)hideTip()});root.addEventListener('click',e=>{const b=e.target.closest('.rg-info');if(b){e.preventDefault();e.stopPropagation();showTip(b);tipPinned=true}});
 document.addEventListener('pointerdown',e=>{if(tipBtn&&!e.target.closest('.rg-info'))hideTip()});document.addEventListener('keydown',e=>{if(e.key==='Escape'){hideTip();closePicker()}});window.addEventListener('resize',()=>{if(tipBtn)placeTip()});window.addEventListener('scroll',()=>{if(tipBtn)placeTip()},true);
-// Navigation explicitly scrolls the actual current document or closest containing scroll owner.
-let scrollAnim=0;
-function scrollOwner(element){let p=element.parentElement;while(p&&p!==document.body&&p!==document.documentElement){const st=getComputedStyle(p),y=st.overflowY;if(/auto|scroll/.test(y)&&p.scrollHeight>p.clientHeight+2)return p;p=p.parentElement}return document.scrollingElement||document.documentElement}
-function jumpTo(id){const target=$('#'+(id==='rg-menu'?'rg-menu-anchor':id));if(!target)return;const owner=scrollOwner(target);const isDoc=owner===document.documentElement||owner===document.body||owner===document.scrollingElement;const rect=target.getBoundingClientRect();const orect=isDoc?{top:0}:owner.getBoundingClientRect();const offset=id==='rg-menu'?2:$('#rg-menu').getBoundingClientRect().height+12;const dest=Math.max(0,owner.scrollTop+rect.top-orect.top-offset);cancelAnimationFrame(scrollAnim);if(reduced()){owner.scrollTop=dest;return}
-const start=owner.scrollTop,delta=dest-start,startAt=performance.now(),dur=720;function frame(t){const x=Math.min(1,(t-startAt)/dur),ease=x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;owner.scrollTop=start+delta*ease;if(x<1)scrollAnim=requestAnimationFrame(frame);else owner.scrollTop=dest}scrollAnim=requestAnimationFrame(frame)}
-$$('[data-jump]').forEach(b=>b.addEventListener('click',()=>jumpTo(b.dataset.jump)));
+// Native scrolling targets the real scrollable ancestor(s), including CMS body or wrapper scrollers.
+// Unlike manual scrollTop calculations, this works when WordPress changes the page scroll owner.
+function jumpTo(id){
+  const menu=id==='rg-menu';
+  const target=$('#'+(menu?'rg-menu-anchor':id));
+  if(!target)return;
+  const nav=$('#rg-menu');
+  // Menu returns to its anchor; sections clear the widget sticky nav.
+  // Publishers can configure --rg-host-sticky-offset on the widget root when a CMS header overlaps content.
+  const hostOffset=parseFloat(getComputedStyle(root).getPropertyValue('--rg-host-sticky-offset'))||0;
+  const widgetNavHeight=nav?nav.getBoundingClientRect().height:0;
+  target.style.scrollMarginTop=(hostOffset+(menu?8:widgetNavHeight+12))+'px';
+  const motion=reduced()?'instant':'smooth';
+  try{target.scrollIntoView({behavior:motion,block:'start',inline:'nearest'});}
+  catch(err){target.scrollIntoView(true);}
+}
+$$('[data-jump]').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();jumpTo(b.dataset.jump)}));
 // Download full current filtered/sorted datasets, never just a paginated on-screen subset.
 function exportData(type){if(type==='top10')return{title:state.rankMode==='top'?'Top 10 coaches most picked to be fired first':'Bottom 10 coaches least picked to be fired first',subtitle:'National ranking · response share (%) · October 2–6, 2026 · lowest percentages indicate fewer survey selections',cols:['Rank','Head coach','NBA team','Share of fans (%)'],rows:top10Rows()};if(type==='fan')return{title:'Own-coach fanbase selections',subtitle:'All 30 NBA fanbases · October 2–6, 2026 · percentage-point gap',cols:schemas.fan.map(c=>c[1]),rows:fanRows().map(r=>[r.team,percent(r.within),r.name,percent(r.overall),percent(r.gap)])};const national=state.explorecat==='Overall',g=national?null:D.groups[state.explorecat][state.group];return national?{title:'Full NBA coach firing-pick ranking',subtitle:'All surveyed NBA fans · response share (%) · October 2–6, 2026',cols:schemas.overall.map(c=>c[1]),rows:exRows().map(r=>[r.rank,r.name,percent(r.pct),r.team])}:{title:state.explorecat+': '+g.label+' coach selections',subtitle:'Selection shares (%) · October 2–6, 2026 · percentage-point difference',cols:schemas.explore.map(c=>c[1]),rows:exRows().map(r=>[r.rank,r.name,percent(r.within),r.team,percent(r.overall),percent(r.gap)])}}
 function quoteCsv(s){let t=String(s);return /[",\r\n]/.test(t)?'"'+t.replace(/"/g,'""')+'"':t}
